@@ -6,10 +6,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-secret-key'
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '*',
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://etharaai-ttmproject-production.up.railway.app',
+    'https://*.onrender.com',
 ]
 
 INSTALLED_APPS = [
