@@ -1,11 +1,3 @@
-SECRET_KEY = 'django-secret-key'
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://etharaai-ttmproject-production.up.railway.app",
-]
 import os
 from pathlib import Path
 
@@ -18,12 +10,8 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://etharaai-ttmproject-production.up.railway.app',
-    'https://*.up.railway.app',
-    'https://*.railway.app',
 ]
 
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,7 +49,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 WSGI_APPLICATION = 'team_task_manager.wsgi.application'
 
