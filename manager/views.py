@@ -1,15 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Project, Task
-from .forms import SignupForm, ProjectForm, TaskForm
-from django.shortcuts import get_object_or_404
 from django.contrib import messages
 
-from django.contrib.auth import login
-from .forms import SignupForm
+from .models import Project, Task
+from .forms import SignupForm, ProjectForm, TaskForm
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -26,9 +23,10 @@ def signup_view(request):
 
 def login_view(request):
     error = ''
+
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 
@@ -55,10 +53,8 @@ def dashboard(request):
     completed = tasks.filter(status='Completed').count()
     pending = tasks.filter(status='Pending').count()
     overdue = tasks.filter(due_date__lt=timezone.now().date()).exclude(status='Completed').count()
-    if total_tasks > 0:
-        progress = int((completed / total_tasks) * 100)
-    else:
-        progress = 0
+
+    progress = int((completed / total_tasks) * 100) if total_tasks > 0 else 0
 
     return render(request, 'dashboard.html', {
         'total_tasks': total_tasks,
@@ -80,14 +76,17 @@ def projects_view(request):
             project = form.save(commit=False)
             project.created_by = request.user
             project.save()
-            messages.success(request, "Project created successfully")
             form.save_m2m()
             project.members.add(request.user)
+            messages.success(request, "Project created successfully")
             return redirect('projects')
     else:
         form = ProjectForm()
 
-    return render(request, 'projects.html', {'projects': projects.distinct(), 'form': form})
+    return render(request, 'projects.html', {
+        'projects': projects.distinct(),
+        'form': form
+    })
 
 
 @login_required
@@ -101,10 +100,11 @@ def tasks_view(request):
         if form.is_valid():
             selected_project = form.cleaned_data['project']
 
-            # Only project admin can create/assign tasks
             if selected_project.created_by == request.user:
                 form.save()
                 messages.success(request, "Task created successfully")
+            else:
+                messages.error(request, "Only project admin can create tasks.")
 
             return redirect('tasks')
     else:
@@ -112,11 +112,9 @@ def tasks_view(request):
 
     return render(request, 'tasks.html', {
         'tasks': tasks,
-        'form': form,
-        'user': request.user
+        'form': form
     })
 
-from django.contrib import messages   # make sure this is at top
 
 @login_required
 def delete_task(request, task_id):
@@ -124,44 +122,41 @@ def delete_task(request, task_id):
 
     if request.user == task.project.created_by:
         task.delete()
-        messages.success(request, "Task deleted successfully")  # ✅ ADD HERE
+        messages.success(request, "Task deleted successfully")
 
     return redirect('tasks')
 
-from django.contrib import messages   # make sure this is already added at top
 
 @login_required
 def delete_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
 
-    # Only project admin can delete project
     if request.user == project.created_by:
         project.delete()
-        messages.success(request, "Project deleted successfully")  # ✅ ADD HERE
+        messages.success(request, "Project deleted successfully")
 
     return redirect('projects')
+
 
 @login_required
 def delete_account(request):
     if request.method == 'POST':
         user = request.user
 
-        # remove user from all project member lists
         for project in Project.objects.filter(members=user):
             project.members.remove(user)
 
         messages.success(request, "Account deleted successfully")
         user.delete()
-
         return redirect('login')
 
     return render(request, 'delete_account.html')
+
 
 @login_required
 def edit_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
-    # Admin can edit full task
     if request.user == task.project.created_by:
         if request.method == 'POST':
             form = TaskForm(request.POST, instance=task)
@@ -178,11 +173,11 @@ def edit_task(request, task_id):
             'role': 'admin'
         })
 
-    # Member can only update status
     if request.user == task.assigned_to:
         if request.method == 'POST':
             task.status = request.POST.get('status')
             task.save()
+            messages.success(request, "Task status updated successfully")
             return redirect('tasks')
 
         return render(request, 'edit_task.html', {
@@ -191,6 +186,8 @@ def edit_task(request, task_id):
         })
 
     return redirect('tasks')
+
+
 @login_required
 def edit_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
@@ -207,4 +204,7 @@ def edit_project(request, project_id):
     else:
         form = ProjectForm(instance=project)
 
-    return render(request, 'edit_project.html', {'form': form, 'project': project})
+    return render(request, 'edit_project.html', {
+        'form': form,
+        'project': project
+    })
