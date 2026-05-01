@@ -10,8 +10,12 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://etharaai-ttmproject-production.up.railway.app',
+    'https://*.up.railway.app',
     'https://*.railway.app',
 ]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
