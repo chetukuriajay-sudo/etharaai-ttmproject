@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="cards">
+    <div class="card">
+        <h3>Total Tasks</h3>
+        <p>{{ total_tasks }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Completed</h3>
+        <p>{{ completed }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Pending</h3>
+        <p>{{ pending }}</p>
+    </div>
+
+    <div class="card danger">
+        <h3>Overdue</h3>
+        <p>{{ overdue }}</p>
+    </div>
+</div>
+<div class="form-box">
+    <h2>Project Progress</h2>
+
+    <p><strong>{{ progress }}%</strong> tasks completed</p>
+
+    <div style="background:#ddd; border-radius:20px; overflow:hidden; height:25px;">
+        <div style="width: {{ progress }}%; background:#2563eb; height:25px; color:white; text-align:center;">
+            {{ progress }}%
+        </div>
+    </div>
+</div>
+
+<h2>Recent Tasks</h2>
+
+<table>
+    <tr>
+        <th>Task</th>
+        <th>Project</th>
+        <th>Assigned To</th>
+        <th>Status</th>
+        <th>Due Date</th>
+    </tr>
+
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.project.name }}</td>
+        <td>{{ task.assigned_to }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.due_date }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No tasks available</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
