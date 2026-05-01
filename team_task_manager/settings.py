@@ -1,3 +1,11 @@
+SECRET_KEY = 'django-secret-key'
+DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://etharaai-ttmproject-production.up.railway.app",
+]
 import os
 from pathlib import Path
 
