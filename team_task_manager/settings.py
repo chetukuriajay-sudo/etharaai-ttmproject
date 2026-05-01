@@ -10,6 +10,7 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://etharaai-ttmproject-production.up.railway.app',
+    'https://*.railway.app',
 ]
 
 INSTALLED_APPS = [
