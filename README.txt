@@ -12,7 +12,7 @@ A full-stack web application built using **Django** that helps teams manage proj
 - ✅ Task Management
 - 🗑️ Delete Account feature
 - 🔍 Searchable dropdowns using Select2
-- 💻 Responsive UI with custom CSS
+- 💻 Clean and responsive UI
 
 ---
 
@@ -21,7 +21,7 @@ A full-stack web application built using **Django** that helps teams manage proj
 - **Backend:** Django (Python)
 - **Frontend:** HTML, CSS, JavaScript
 - **Database:** SQLite
-- **Deployment:** Railway
+- **Deployment:** Render
 - **Server:** Gunicorn
 - **Static Files:** WhiteNoise
 
@@ -29,45 +29,41 @@ A full-stack web application built using **Django** that helps teams manage proj
 
 ## 📂 Project Structure
 
-```
 team_task_manager/
-│── manager/             # Main app
-│── static/              # CSS, JS files
-│── templates/           # HTML templates
-│── team_task_manager/   # Project settings
-│── manage.py
-│── requirements.txt
-│── Procfile
-```
+│── manager/             # Main app  
+│── static/              # CSS, JS files  
+│── templates/           # HTML templates  
+│── team_task_manager/   # Project settings  
+│── manage.py  
+│── requirements.txt  
+│── Procfile  
 
 ---
 
 ## ⚙️ Installation (Run Locally)
 
-```bash
-git clone https://github.com/chetukuriajay-sudo/etharaai-ttmproject.git
-cd etharaai-ttmproject
+git clone https://github.com/chetukuriajay-sudo/etharaai-ttmproject.git  
+cd etharaai-ttmproject  
 
-pip install -r requirements.txt
+pip install -r requirements.txt  
 
-python manage.py migrate
-python manage.py runserver
-```
+python manage.py migrate  
+python manage.py runserver  
 
 ---
 
 ## 🌐 Live Demo
 
-👉 https://etharaai-ttmproject-production.up.railway.app
+👉 https://etharaai-ttmproject.onrender.com/projects/
 
 ---
 
 ## 🚀 Deployment
 
-This project is deployed using **Railway** with:
+This project is deployed using **Render** with:
 
-- Gunicorn server
-- WhiteNoise for static files
+- Gunicorn server  
+- WhiteNoise for static files  
 
 ---
 
@@ -75,23 +71,23 @@ This project is deployed using **Railway** with:
 
 **Chethukuri Ajay Kumar**
 
-- GitHub: https://github.com/chetukuriajay-sudo
+GitHub: https://github.com/chetukuriajay-sudo  
 
 ---
 
 ## ⭐ Future Improvements
 
-- Better UI/UX design
-- Notifications system
-- Role-based access
-- Task deadlines & reminders
-- Analytics dashboard
+- Better UI/UX design  
+- Notifications system  
+- Role-based access control  
+- Task deadlines & reminders  
+- Analytics dashboard  
 
 ---
 
 ## 📌 Note
 
-Make sure static files are properly configured using **WhiteNoise** for production deployment.
+Ensure static files are properly configured using **WhiteNoise** for production deployment.
 
 ---
 
