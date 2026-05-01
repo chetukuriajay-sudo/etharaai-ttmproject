@@ -62,6 +62,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'team_task_manager.wsgi.application'
 
 DATABASES = {
